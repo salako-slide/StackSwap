@@ -42,3 +42,26 @@
                     (is-eq iter (+ u1 new-guess)))
                     iter
                     new-guess)))))
+
+;; Data Maps
+(define-map pools 
+    { token-x: principal, token-y: principal }
+    { liquidity-total: uint,
+      balance-x: uint,
+      balance-y: uint,
+      fee-rate: uint })
+
+(define-map liquidity-providers
+    { pool-id: { token-x: principal, token-y: principal },
+      provider: principal }
+    { liquidity-provided: uint,
+      rewards-claimed: uint })
+
+(define-map orders
+    uint
+    { maker: principal,
+      token-x: principal,
+      token-y: principal,
+      amount-x: uint,
+      target-y: uint,
+      expires-at: uint })
