@@ -25,3 +25,20 @@
 (define-constant ERR-SLIPPAGE-TOO-HIGH (err u1006))
 (define-constant ERR-DEADLINE-EXPIRED (err u1007))
 (define-constant ERR-ZERO-LIQUIDITY (err u1008))
+
+;; Data Variables
+(define-data-var contract-owner principal tx-sender)
+
+;; Helper functions
+;; Simplified sqrt implementation to avoid interdependency
+(define-private (sqrt (n uint))
+    (let ((iter (/ n u2)))  ;; Start with n/2 as initial guess
+        (if (<= n u1)
+            n  ;; Handle small numbers
+            (let ((quotient (/ n iter))
+                 (new-guess (/ (+ iter quotient) u2)))
+                (if (or 
+                    (is-eq iter new-guess)
+                    (is-eq iter (+ u1 new-guess)))
+                    iter
+                    new-guess)))))
